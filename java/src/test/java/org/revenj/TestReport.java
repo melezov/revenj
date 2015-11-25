@@ -15,6 +15,7 @@ import org.revenj.patterns.OlapCubeQuery;
 import org.revenj.patterns.ServiceLocator;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class TestReport {
@@ -39,9 +40,9 @@ public class TestReport {
 		UUID id = UUID.randomUUID();
 		co.setId(id);
 		context.create(co);
-        FindMany fm = new FindMany(id, new HashSet<>(Arrays.asList(id)));
-        FindMany.Result result = fm.populate(locator);
-        Assert.assertEquals(id, result.getFound().getId());
+		FindMany fm = new FindMany(id, new HashSet<>(Arrays.asList(id)));
+		FindMany.Result result = fm.populate(locator);
+		Assert.assertEquals(id, result.getFound().getId());
 	}
 
 	@Test
@@ -59,8 +60,11 @@ public class TestReport {
 		Map<String, Object> first = results.get(0);
 		Assert.assertEquals(3, first.size());
 		Assert.assertTrue(first.containsKey("number"));
+		Assert.assertTrue(first.get("number").getClass() == Integer.class);
 		Assert.assertTrue(first.containsKey("min"));
+		Assert.assertTrue(first.get("min").getClass() == LocalDate.class);
 		Assert.assertTrue(first.containsKey("max"));
+		Assert.assertTrue(first.get("max").getClass() == LocalDate.class);
 		Assert.assertTrue(results.size() < 11);
 	}
 
